@@ -72,7 +72,7 @@
             position: absolute;
             left: 0;
             right: 0;
-            /* font-size: 12px; */
+            text-transform: capitalize;
         }
 
         @media only screen and (max-width: 600px) {
@@ -346,7 +346,7 @@
                         if (event.interesting) {
                             eventElement.style.backgroundColor = '#dd0000'
                         }
-                        eventElement.innerHTML = event.name + '<br>' + event.start + ' - ' + event.end;
+                        eventElement.innerHTML = event.name.toLowerCase() + '<br>' + event.start + ' - ' + event.end;
                         eventsContainer.appendChild(eventElement);
                     });
 
