@@ -21,6 +21,10 @@
             margin: 0;
         }
 
+        h3 {
+            text-align: center;
+        }
+
         .schedule {
             display: flex;
             flex-direction: column;
@@ -78,6 +82,13 @@
         @media only screen and (max-width: 600px) {
             body {
                 font-size: 10px;
+            }
+
+            h3 {
+                min-height: 2em;
+            }
+            h3 span {
+                display: block;
             }
         }
 
@@ -324,7 +335,7 @@
                 if (stage !== 'day') {
                     const stageElement = document.createElement('div');
                     stageElement.classList.add('stage');
-                    stageElement.innerHTML = `<h3>${stage}</h3>`;
+                    stageElement.innerHTML = `<h3>${stage.split(' ').map(x => `<span>${x}</span>`).join(' ')}</h3>`;
 
                     const eventsContainer = document.createElement('div');
                     eventsContainer.classList.add('eventsContainer');
