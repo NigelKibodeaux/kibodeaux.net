@@ -78,6 +78,9 @@
             right: 0;
             text-transform: capitalize;
         }
+        .event.chosen {
+            background-color: #dd0000;
+        }
 
         @media only screen and (max-width: 600px) {
             body {
@@ -100,6 +103,9 @@
         <!-- Schedule visualization will be added here -->
     </div>
     <script>
+        const chosenEventsString = localStorage.getItem('chosenEvents') || '[]';
+        const chosenEvents = JSON.parse(chosenEventsString);
+
         const data = [
             //[
             {
@@ -352,13 +358,33 @@
                         const startMinutes = startHours * 60 + parseInt(event.start.split(':')[1]);
                         const endMinutes = endHours * 60 + parseInt(event.end.split(':')[1]);
                         eventElement.style.top = `${(startMinutes - 12 * 60) * minute_height}px`;
-                        console.log({ endMinutes, startMinutes, minute_height, height: (endMinutes - startMinutes) * minute_height })
                         eventElement.style.height = `${(endMinutes - startMinutes) * minute_height}px`;
-                        if (event.interesting) {
-                            eventElement.style.backgroundColor = '#dd0000'
+                        // if (event.interesting) {
+                        //     eventElement.classList.add('chosen');
+                        // }
+                        if (chosenEvents.includes(event.name)) {
+                            eventElement.classList.add('chosen');
                         }
                         eventElement.innerHTML = event.name.toLowerCase() + '<br>' + event.start + ' - ' + event.end;
                         eventsContainer.appendChild(eventElement);
+
+                        // when you click on an event, it will turn red
+                        eventElement.addEventListener('click', () => {
+                            const chosenEventsString = localStorage.getItem('chosenEvents') || '[]';
+                            const chosenEvents = JSON.parse(chosenEventsString);
+                            console.log({chosenEvents})
+
+                            if (eventElement.classList.contains('chosen')){
+                                eventElement.classList.remove('chosen');
+                                chosenEvents.splice(chosenEvents.indexOf(event.name), 1);
+                            }
+                            else {
+                                eventElement.classList.add('chosen');
+                                chosenEvents.push(event.name);
+                            }
+
+                            localStorage.setItem('chosenEvents', JSON.stringify(chosenEvents));
+                        });
                     });
 
                     stageElement.appendChild(eventsContainer);
